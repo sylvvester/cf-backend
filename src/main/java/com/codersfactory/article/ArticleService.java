@@ -1,5 +1,7 @@
 package com.codersfactory.article;
 
+import org.springframework.data.domain.Page;
+
 public interface ArticleService {
         ArticleDTO createArticle(ArticleDTO articleDTO);
 
@@ -8,4 +10,6 @@ public interface ArticleService {
         ArticleDTO getArticleById(Long id);
 
         void deleteArticle(Long id);
+
+        Page<ArticleDTO> searchArticle(ArticleQuery query);
 }

@@ -1,8 +1,11 @@
 package com.codersfactory.article;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/articles")
@@ -39,14 +42,22 @@ public class ArticleController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ArticleDTO> searchArticle( @RequestParam (required = false) String title,
+    public ResponseEntity<Page<ArticleDTO>> searchArticle( @RequestParam (required = false) String title,
                                                      @RequestParam (required = false) String author,
                                                      @RequestParam (required = false) String technology,
                                                      @RequestParam (required = false) String difficultyLevel,
-                                                     @RequestParam (required = false) String tag
+                                                     @RequestParam (required = false) List<String> tags
     ){
-        ArticleDTO article = articleService.searchArticle(title, author, technology, difficultyLevel, tag);
-        return new ResponseEntity<>(article, HttpStatus.OK);
+        ArticleQuery query = ArticleQuery.builder()
+                .title(title)
+                .author(author)
+                .technology(technology)
+                .difficultyLevel(difficultyLevel)
+                .tags(tags)
+                .build();
+
+        Page <ArticleDTO> articles= articleService.searchArticle(query);
+        return new ResponseEntity<>(articles, HttpStatus.OK);
     }
 
 }

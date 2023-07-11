@@ -10,7 +10,7 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAll(Specification<Article> specs,
-                          Pageable pageable);
+                          Pageable  pageable);
 
 }    interface Specs {
         static Specification<Article> byTitle(String title) {

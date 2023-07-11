@@ -5,12 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/articles")
+@RequestMapping("/api/articles")
 public class ArticleController {
 
-    private final ArticleService articleService;
+    private final ArticleServiceImpl articleService;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleServiceImpl articleService) {
         this.articleService = articleService;
     }
 
@@ -22,7 +22,7 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDTO> getArticle(@PathVariable Long id) {
-        ArticleDTO article = articleService.getArticle(id);
+        ArticleDTO article = articleService.getArticleById(id);
         return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
@@ -36,6 +36,17 @@ public class ArticleController {
     public ResponseEntity<Void> deleteArticle(@PathVariable Long id) {
         articleService.deleteArticle(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ArticleDTO> searchArticle( @RequestParam (required = false) String title,
+                                                     @RequestParam (required = false) String author,
+                                                     @RequestParam (required = false) String technology,
+                                                     @RequestParam (required = false) String difficultyLevel,
+                                                     @RequestParam (required = false) String tag
+    ){
+        ArticleDTO article = articleService.searchArticle(title, author, technology, difficultyLevel, tag);
+        return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
 }

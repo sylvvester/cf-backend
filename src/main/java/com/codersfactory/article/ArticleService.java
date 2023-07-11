@@ -1,6 +1,7 @@
 package com.codersfactory.article;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ArticleService {
         ArticleDTO createArticle(ArticleDTO articleDTO);
@@ -11,5 +12,5 @@ public interface ArticleService {
 
         void deleteArticle(Long id);
 
-        Page<ArticleDTO> searchArticle(ArticleQuery query);
+        Page<ArticleDTO> searchArticle(ArticleQuery query, Pageable pageable);
 }

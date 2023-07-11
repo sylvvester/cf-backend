@@ -1,6 +1,8 @@
 package com.codersfactory.article;
 
 import com.codersfactory.common.exception.ArticleNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -60,6 +62,13 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepository.deleteById(id);
     }
 
+
+    @Override
+    public Page<ArticleDTO> searchArticle(ArticleQuery query, Pageable pageable) {
+        return articleRepository.search(query, pageable)
+                .map(this::convertToDTO);
+
+    }
 
     private ArticleDTO convertToDTO(Article article) {
         return new ArticleDTO(

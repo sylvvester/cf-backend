@@ -1,6 +1,8 @@
 package com.codersfactory.article;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/articles")
 public class ArticleController {
 
-    private final ArticleServiceImpl articleService;
+    private final ArticleService articleService;
 
     public ArticleController(ArticleServiceImpl articleService) {
         this.articleService = articleService;
@@ -42,12 +44,14 @@ public class ArticleController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<ArticleDTO>> searchArticle( @RequestParam (required = false) String title,
-                                                     @RequestParam (required = false) String author,
-                                                     @RequestParam (required = false) String technology,
-                                                     @RequestParam (required = false) String difficultyLevel,
-                                                     @RequestParam (required = false) List<String> tags
-    ){
+    public ResponseEntity<Page<ArticleDTO>> searchArticle(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String technology,
+            @RequestParam(required = false) String difficultyLevel,
+            @RequestParam(required = false) List<String> tags,
+            @RequestParam(required = false) @PageableDefault Pageable pageable
+            ) {
         ArticleQuery query = ArticleQuery.builder()
                 .title(title)
                 .author(author)
@@ -56,7 +60,7 @@ public class ArticleController {
                 .tags(tags)
                 .build();
 
-        Page <ArticleDTO> articles= articleService.searchArticle(query);
+        Page<ArticleDTO> articles = articleService.searchArticle(query, pageable);
         return new ResponseEntity<>(articles, HttpStatus.OK);
     }
 

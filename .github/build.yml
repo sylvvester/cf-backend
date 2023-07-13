@@ -3,14 +3,14 @@ name: Build Check
 on:
   push:
     branches:
-      - develop
+      - main
     paths-ignore:
       - 'README.md'
       - '.gitignore'
 
   pull_request:
     branches:
-      - develop
+      - main
     paths-ignore:
       - 'README.md'
       - '.gitignore'

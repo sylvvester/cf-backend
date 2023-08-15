@@ -1,16 +1,11 @@
-name: Build Check
+name: Pull Request Build Check
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - 'README.md'
-      - '.gitignore'
-
   pull_request:
     branches:
-      - main
+      - develop
+      - preprod
+      - prod
     paths-ignore:
       - 'README.md'
       - '.gitignore'
